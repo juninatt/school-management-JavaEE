@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response;
 @Path("student")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class StudentControl {
+public class StudentController {
 
     @Inject
     StudentService studentService;
