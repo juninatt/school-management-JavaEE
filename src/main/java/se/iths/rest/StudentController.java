@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 @Path("student")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -27,6 +28,12 @@ public class StudentController {
     public Response getStudent(@PathParam("id") Long id) {
         Student student = studentService.getStudent(id);
         return Response.ok(student).build();
+    }
+    @Path("")
+    @GET
+    public Response getStudents() {
+        List<Student> students = studentService.getStudents();
+        return Response.ok(students).build();
     }
 }
 
