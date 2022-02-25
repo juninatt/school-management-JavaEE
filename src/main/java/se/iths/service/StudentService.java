@@ -16,4 +16,8 @@ public class StudentService {
         entityManager.persist(student);
         return  student;
     }
+
+    public Student getStudent(Long id) {
+        return entityManager.find(Student.class, id);
+    }
 }
