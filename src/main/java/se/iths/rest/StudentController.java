@@ -35,5 +35,11 @@ public class StudentController {
         List<Student> students = studentService.getStudents();
         return Response.ok(students).build();
     }
+    @Path("{id}")
+    @DELETE
+    public Response removeStudent(@PathParam("id") Long id) {
+        studentService.removeStudent(id);
+        return Response.ok().build();
+    }
 }
 
