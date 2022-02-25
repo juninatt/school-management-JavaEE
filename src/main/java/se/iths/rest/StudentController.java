@@ -35,6 +35,12 @@ public class StudentController {
         List<Student> students = studentService.getStudents();
         return Response.ok(students).build();
     }
+    @Path("name/{id}")
+    @PATCH
+    public Response updateName(@PathParam("id") Long id, @QueryParam("first-name") String firstName,@QueryParam("last-name") String lastName) {
+        Student student = studentService.updateName(id, firstName, lastName);
+        return Response.ok(student).build();
+    }
     @Path("{id}")
     @DELETE
     public Response removeStudent(@PathParam("id") Long id) {

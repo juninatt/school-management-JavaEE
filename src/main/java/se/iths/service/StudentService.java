@@ -25,7 +25,12 @@ public class StudentService {
     public List<Student> getStudents() {
         return entityManager.createQuery("SELECT s FROM Student s", Student.class).getResultList();
     }
-
+    public Student updateName(Long id, String firstName, String lastName) {
+        Student student = entityManager.find(Student.class, id);
+        student.setFirstName(firstName);
+        student.setLastName(lastName);
+        return entityManager.merge(student);
+    }
     public void removeStudent(Long id) {
         Student student = entityManager.find(Student.class, id);
         entityManager.remove(student);
