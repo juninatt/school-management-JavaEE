@@ -25,6 +25,14 @@ public class StudentService {
     public List<Student> getStudents() {
         return entityManager.createQuery("SELECT s FROM Student s", Student.class).getResultList();
     }
+
+    public List<Student> getStudents(String lastName) {
+        return entityManager.createQuery(
+                        "SELECT s FROM Student s WHERE s.lastName LIKE :name", Student.class)
+                .setParameter("name", lastName)
+                .getResultList();
+    }
+
     public Student updateName(Long id, String firstName, String lastName) {
         Student student = entityManager.find(Student.class, id);
         student.setFirstName(firstName);

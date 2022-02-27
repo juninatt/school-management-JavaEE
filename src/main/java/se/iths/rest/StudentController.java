@@ -35,6 +35,13 @@ public class StudentController {
         List<Student> students = studentService.getStudents();
         return Response.ok(students).build();
     }
+
+    @Path("findbyname")
+    @GET
+    public Response getStudents(@QueryParam("last-name") String name) {
+        List<Student> students = studentService.getStudents(name);
+        return Response.ok(students).build();
+    }
     @Path("name/{id}")
     @PATCH
     public Response updateName(@PathParam("id") Long id, @QueryParam("first-name") String firstName,@QueryParam("last-name") String lastName) {
