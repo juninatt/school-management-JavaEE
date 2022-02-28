@@ -3,6 +3,7 @@ package se.iths.rest;
 import se.iths.entity.Student;
 import se.iths.service.StudentService;
 
+import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -23,7 +24,7 @@ public class StudentController {
     @POST
     public Response createStudent(Student student) {
         studentService.createStudent(student);
-        return Response.ok()
+        return Response.ok(student)
                 .lastModified(Date.from(Instant.now()))
                 .status(Response.Status.CREATED)
                 .build();
@@ -51,7 +52,10 @@ public class StudentController {
     @PATCH
     public Response updateName(@PathParam("id") Long id, @QueryParam("first-name") String firstName,@QueryParam("last-name") String lastName) {
         Student student = studentService.updateName(id, firstName, lastName);
-        return Response.ok(student).build();
+        return Response.ok(student)
+                .lastModified(Date.from(Instant.now()))
+                .status(Response.Status.CREATED)
+                .build();
     }
     @Path("{id}")
     @DELETE
