@@ -7,6 +7,8 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 
 @Path("student")
@@ -21,7 +23,10 @@ public class StudentController {
     @POST
     public Response createStudent(Student student) {
         studentService.createStudent(student);
-        return Response.ok(student).build();
+        return Response.ok()
+                .lastModified(Date.from(Instant.now()))
+                .status(Response.Status.CREATED)
+                .build();
     }
     @Path("{id}")
     @GET
