@@ -53,7 +53,7 @@ public class StudentController {
         Student student = studentService.updateName(id, firstName, lastName);
         return Response.ok(student)
                 .lastModified(Date.from(Instant.now()))
-                .status(Response.Status.CREATED)
+                .status(Response.Status.NO_CONTENT)
                 .build();
     }
     @Path("{id}")
