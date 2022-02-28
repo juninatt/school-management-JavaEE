@@ -1,6 +1,7 @@
 package se.iths.service;
 
 import se.iths.entity.Student;
+import se.iths.exceptions.StudentNotFoundException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -19,7 +20,12 @@ public class StudentService {
     }
 
     public Student getStudent(Long id) {
-        return entityManager.find(Student.class, id);
+        Student student = entityManager.find(Student.class, id);
+
+        if (student == null) {
+            throw new StudentNotFoundException();
+        }
+        return student;
     }
 
     public List<Student> getStudents() {
