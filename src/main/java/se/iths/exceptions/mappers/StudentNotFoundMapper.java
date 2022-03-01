@@ -15,6 +15,7 @@ public class StudentNotFoundMapper implements ExceptionMapper<StudentNotFoundExc
     @Override
     public Response toResponse(StudentNotFoundException e) {
         return Response.ok(message)
-                .status(404, "Student not found").build();
+                .status(404, "Student not found")
+                .build();
     }
 }

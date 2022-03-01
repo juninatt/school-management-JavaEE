@@ -30,6 +30,11 @@ public class StudentController {
                 .build();
     }
     @Path("{id}")
+    @POST
+    public void illegalPathCreate(Student student) {
+        throw new NotFoundException();
+    }
+    @Path("{id}")
     @GET
     public Response getStudent(@PathParam("id") Long id) {
         Student student = studentService.getStudent(id);
