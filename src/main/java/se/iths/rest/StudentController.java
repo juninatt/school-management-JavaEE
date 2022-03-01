@@ -70,6 +70,8 @@ public class StudentController {
     @Path("name/{id}")
     @PATCH
     public Response updateName(@PathParam("id") Long id, @QueryParam("first-name") String firstName,@QueryParam("last-name") String lastName) {
+        if (!findDuplicate(id))
+            throw new StudentNotFoundException();
         Student student = studentService.updateName(id, firstName, lastName);
         return Response.ok(student)
                 .lastModified(Date.from(Instant.now()))
