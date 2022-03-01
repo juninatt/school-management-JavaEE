@@ -1,6 +1,7 @@
 package se.iths.rest;
 
 import se.iths.entity.Student;
+import se.iths.exceptions.StudentNotFoundException;
 import se.iths.service.StudentService;
 
 
@@ -33,16 +34,28 @@ public class StudentController {
     @Path("{id}")
     @POST
     public void illegalPathCreate(@PathParam("id") Long id) throws DuplicateKeyException {
-        List<Student> existingStudents = studentService.getStudents();
-        for (Student s: existingStudents) {
-            if (s.getId().equals(id))
-                throw new DuplicateKeyException();
-        }
-            throw new NotFoundException();
+        if (findDuplicate(id))
+            throw new DuplicateKeyException();
+        throw new NotFoundException();
     }
+
+    private boolean findDuplicate(Long id) {
+        List<Student> existingStudents = studentService.getStudents();
+        boolean conflict = false;
+        for (Student s: existingStudents) {
+            if (s.getId().equals(id)) {
+                conflict = true;
+                break;
+            }
+        }
+        return conflict;
+    }
+
     @Path("{id}")
     @GET
     public Response getStudent(@PathParam("id") Long id) {
+        if (!findDuplicate(id))
+            throw new StudentNotFoundException();
         Student student = studentService.getStudent(id);
         return Response.ok(student)
                 .build();

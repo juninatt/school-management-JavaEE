@@ -20,12 +20,7 @@ public class StudentService {
     }
 
     public Student getStudent(Long id) {
-        Student student = entityManager.find(Student.class, id);
-
-        if (student == null) {
-            throw new StudentNotFoundException();
-        }
-        return student;
+        return entityManager.find(Student.class, id);
     }
 
     public List<Student> getStudents() {
