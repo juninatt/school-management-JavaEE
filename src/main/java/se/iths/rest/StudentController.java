@@ -58,7 +58,7 @@ public class StudentController {
                 .build();
     }
 
-    @Path("findbyname")
+    @Path("last-name")
     @GET
     public Response getStudents(@QueryParam("last-name") String name) {
         List<Student> students = studentService.getStudents(name);
@@ -99,6 +99,7 @@ public class StudentController {
     public void illegalPathDelete() throws MethodNotSupportedException {
         throw new MethodNotSupportedException();
     }
+
     private boolean findDuplicate(Long id) {
         List<Student> existingStudents = studentService.getStudents();
         boolean conflict = false;
