@@ -36,18 +36,12 @@ public class StudentService {
 
     public Student updateName(Long id, String firstName, String lastName) {
         Student student = entityManager.find(Student.class, id);
-        if (student == null) {
-            throw new StudentNotFoundException();
-        }
         student.setFirstName(firstName);
         student.setLastName(lastName);
         return entityManager.merge(student);
     }
     public void removeStudent(Long id) {
         Student student = entityManager.find(Student.class, id);
-        if (student == null) {
-            throw new StudentNotFoundException();
-        }
         entityManager.remove(student);
     }
 }
