@@ -93,7 +93,7 @@ public class StudentController {
                 .build();
     }
     @Path("")
-    @PATCH
+    @DELETE
     public void illegalPathDelete() throws MethodNotSupportedException {
         throw new MethodNotSupportedException();
     }
