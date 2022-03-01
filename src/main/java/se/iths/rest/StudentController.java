@@ -20,7 +20,7 @@ public class StudentController {
     @Inject
     StudentService studentService;
 
-    @Path("new")
+    @Path("")
     @POST
     public Response createStudent(Student student) {
         studentService.createStudent(student);
@@ -33,19 +33,22 @@ public class StudentController {
     @GET
     public Response getStudent(@PathParam("id") Long id) {
         Student student = studentService.getStudent(id);
-        return Response.ok(student).build();
+        return Response.ok(student)
+                .build();
     }
     @Path("")
     @GET
     public Response getStudents() {
         List<Student> students = studentService.getStudents();
-        return Response.ok(students).build();
+        return Response.ok(students)
+                .build();
     }
     @Path("findbyname")
     @GET
     public Response getStudents(@QueryParam("last-name") String name) {
         List<Student> students = studentService.getStudents(name);
-        return Response.ok(students).build();
+        return Response.ok(students)
+                .build();
     }
     @Path("name/{id}")
     @PATCH
