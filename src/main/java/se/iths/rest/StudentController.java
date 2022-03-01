@@ -1,6 +1,7 @@
 package se.iths.rest;
 
 import se.iths.entity.Student;
+import se.iths.exceptions.StudentNotFoundException;
 import se.iths.service.StudentService;
 
 
@@ -33,6 +34,9 @@ public class StudentController {
     @GET
     public Response getStudent(@PathParam("id") Long id) {
         Student student = studentService.getStudent(id);
+        if (student == null) {
+            throw new StudentNotFoundException();
+        }
         return Response.ok(student)
                 .build();
     }
@@ -43,17 +47,21 @@ public class StudentController {
         return Response.ok(students)
                 .build();
     }
-    @Path("findbyname")
+    @Path("lastname")
     @GET
-    public Response getStudents(@QueryParam("last-name") String name) {
+    public Response getStudents(@QueryParam("lastname") String name) {
         List<Student> students = studentService.getStudents(name);
         return Response.ok(students)
                 .build();
     }
     @Path("name/{id}")
     @PATCH
-    public Response updateName(@PathParam("id") Long id, @QueryParam("first-name") String firstName,@QueryParam("last-name") String lastName) {
-        Student student = studentService.updateName(id, firstName, lastName);
+    public Response updateName(@PathParam("id") Long id, @QueryParam("firstname") String firstName,@QueryParam("lastname") String lastName) {
+        Student student = studentService.getStudent(id);
+        if (student == null) {
+            throw new StudentNotFoundException();
+        }
+        studentService.updateName(id, firstName, lastName);
         return Response.ok(student)
                 .lastModified(Date.from(Instant.now()))
                 .status(Response.Status.NO_CONTENT)
@@ -62,6 +70,10 @@ public class StudentController {
     @Path("{id}")
     @DELETE
     public Response removeStudent(@PathParam("id") Long id) {
+        Student student = studentService.getStudent(id);
+        if (student == null) {
+            throw new StudentNotFoundException();
+        }
         studentService.removeStudent(id);
         return Response.ok()
                 .status(Response.Status.NO_CONTENT)
