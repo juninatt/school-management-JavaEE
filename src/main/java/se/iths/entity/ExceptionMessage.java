@@ -59,6 +59,14 @@ public class ExceptionMessage {
         this.mainMessage = mainMessage;
     }
 
+    public String getAdditionalInfo() {
+        return additionalInfo;
+    }
+
+    public void setAdditionalInfo(String additionalInfo) {
+        this.additionalInfo = additionalInfo;
+    }
+
     public Date getOccurredAt() {
         return occurredAt;
     }

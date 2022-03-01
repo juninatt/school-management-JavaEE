@@ -5,7 +5,9 @@ import se.iths.exceptions.StudentNotFoundException;
 import se.iths.service.StudentService;
 
 
+import javax.ejb.DuplicateKeyException;
 import javax.inject.Inject;
+import javax.mail.MethodNotSupportedException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -31,15 +33,23 @@ public class StudentController {
                 .build();
     }
     @Path("{id}")
+    @POST
+    public void illegalPathCreate(@PathParam("id") Long id) throws DuplicateKeyException {
+        if (findDuplicate(id))
+            throw new DuplicateKeyException();
+        throw new NotFoundException();
+    }
+
+    @Path("{id}")
     @GET
     public Response getStudent(@PathParam("id") Long id) {
-        Student student = studentService.getStudent(id);
-        if (student == null) {
+        if (!findDuplicate(id))
             throw new StudentNotFoundException();
-        }
+        Student student = studentService.getStudent(id);
         return Response.ok(student)
                 .build();
     }
+
     @Path("")
     @GET
     public Response getStudents() {
@@ -47,38 +57,56 @@ public class StudentController {
         return Response.ok(students)
                 .build();
     }
-    @Path("lastname")
+
+    @Path("findbyname")
     @GET
-    public Response getStudents(@QueryParam("lastname") String name) {
+    public Response getStudents(@QueryParam("last-name") String name) {
         List<Student> students = studentService.getStudents(name);
+        if (students.isEmpty())
+            throw new StudentNotFoundException();
         return Response.ok(students)
                 .build();
     }
     @Path("name/{id}")
     @PATCH
-    public Response updateName(@PathParam("id") Long id, @QueryParam("firstname") String firstName,@QueryParam("lastname") String lastName) {
-        Student student = studentService.getStudent(id);
-        if (student == null) {
-            throw new StudentNotFoundException();
-        }
-        studentService.updateName(id, firstName, lastName);
+    public Response updateName(@PathParam("id") Long id, @QueryParam("first-name") String firstName,@QueryParam("last-name") String lastName) {
+        Student student = studentService.updateName(id, firstName, lastName);
         return Response.ok(student)
                 .lastModified(Date.from(Instant.now()))
                 .status(Response.Status.NO_CONTENT)
                 .build();
     }
+    @Path("")
+    @PATCH
+    public void illegalPathUpdate() throws MethodNotSupportedException {
+        throw new MethodNotSupportedException();
+    }
     @Path("{id}")
     @DELETE
     public Response removeStudent(@PathParam("id") Long id) {
-        Student student = studentService.getStudent(id);
-        if (student == null) {
+        if (!findDuplicate(id))
             throw new StudentNotFoundException();
-        }
         studentService.removeStudent(id);
         return Response.ok()
                 .status(Response.Status.NO_CONTENT)
                 .expires(Date.from(Instant.now()))
                 .build();
+    }
+    @Path("")
+    @PATCH
+    public void illegalPathDelete() throws MethodNotSupportedException {
+        throw new MethodNotSupportedException();
+    }
+    private boolean findDuplicate(Long id) {
+        List<Student> existingStudents = studentService.getStudents();
+        boolean conflict = false;
+        for (Student s: existingStudents) {
+            if (s.getId().equals(id)) {
+                conflict = true;
+                break;
+            }
+        }
+        return conflict;
     }
 }
 
