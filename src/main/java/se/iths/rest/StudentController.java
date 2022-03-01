@@ -4,6 +4,7 @@ import se.iths.entity.Student;
 import se.iths.service.StudentService;
 
 
+import javax.ejb.DuplicateKeyException;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -31,8 +32,13 @@ public class StudentController {
     }
     @Path("{id}")
     @POST
-    public void illegalPathCreate(Student student) {
-        throw new NotFoundException();
+    public void illegalPathCreate(@PathParam("id") Long id) throws DuplicateKeyException {
+        List<Student> existingStudents = studentService.getStudents();
+        for (Student s: existingStudents) {
+            if (s.getId().equals(id))
+                throw new DuplicateKeyException();
+        }
+            throw new NotFoundException();
     }
     @Path("{id}")
     @GET
