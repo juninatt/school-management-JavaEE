@@ -16,4 +16,5 @@ public class SubjectService {
         entityManager.persist(subject);
         return subject;
     }
+    public Subject getSubject(Long id) { return entityManager.find(Subject.class, id); }
 }

@@ -1,12 +1,10 @@
 package se.iths.entity;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
+@Entity
 public class Teacher {
 
     @Id
@@ -24,28 +22,16 @@ public class Teacher {
 
     private String phoneNumber;
 
-    @OneToMany(mappedBy = "teacher")
+    @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL)
     private List<Subject> subjects;
 
-    public void addSubjects(Subject subject) {
+    public void addSubject(Subject subject) {
         this.subjects.add(subject);
         subject.setTeacher(this);
     }
 
-    public List<Subject> getSubjects() {
-        return subjects;
-    }
-
-    public void setSubjects(List<Subject> subjects) {
-        this.subjects = subjects;
-    }
-
     public long getId() {
         return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getFirstName() {

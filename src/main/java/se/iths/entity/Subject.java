@@ -1,12 +1,9 @@
 package se.iths.entity;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
-
+@Entity
 public class Subject {
 
     @Id
@@ -22,9 +19,12 @@ public class Subject {
     @ManyToOne
     private Teacher teacher;
 
-    public Teacher getTeacher() {
-        return teacher;
+    public Subject(String name, String points) {
+        this.name = name;
+        this.points = points;
     }
+    public Subject() {}
+
     public void setTeacher(Teacher teacher) {
         this.teacher = teacher;
     }
@@ -33,9 +33,7 @@ public class Subject {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public void setId(Long id) { this.id = id; }
 
     public String getName() {
         return name;
