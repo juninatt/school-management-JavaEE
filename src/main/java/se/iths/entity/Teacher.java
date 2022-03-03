@@ -3,7 +3,9 @@ package se.iths.entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
 
 public class Teacher {
 
@@ -22,6 +24,21 @@ public class Teacher {
 
     private String phoneNumber;
 
+    @OneToMany(mappedBy = "teacher")
+    private List<Subject> subjects;
+
+    public void addSubjects(Subject subject) {
+        this.subjects.add(subject);
+        subject.setTeacher(this);
+    }
+
+    public List<Subject> getSubjects() {
+        return subjects;
+    }
+
+    public void setSubjects(List<Subject> subjects) {
+        this.subjects = subjects;
+    }
 
     public long getId() {
         return id;

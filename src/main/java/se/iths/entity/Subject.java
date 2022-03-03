@@ -3,6 +3,7 @@ package se.iths.entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
 
 
@@ -18,6 +19,15 @@ public class Subject {
     @NotEmpty
     private String points;
 
+    @ManyToOne
+    private Teacher teacher;
+
+    public Teacher getTeacher() {
+        return teacher;
+    }
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
+    }
 
     public Long getId() {
         return id;
