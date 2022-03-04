@@ -35,6 +35,8 @@ public class SubjectController {
         return Response.ok(subject)
                 .build();
     }
+    @Path("")
+    @GET
     public Response getSubjects() {
         List<Subject> subjects = subjectService.getSubjects();
         return Response.ok(subjects)
