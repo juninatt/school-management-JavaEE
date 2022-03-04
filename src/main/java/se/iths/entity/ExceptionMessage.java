@@ -14,12 +14,9 @@ public class ExceptionMessage {
 
     @NotEmpty
     private String statusCode;
-
     @NotEmpty
     private String mainMessage;
-
     private String additionalInfo;
-
     private Date occurredAt;
 
     public ExceptionMessage(String statusCode, String mainMessage, String additionalInfo) {
@@ -38,39 +35,30 @@ public class ExceptionMessage {
     public long getErrorNr() {
         return errorNr;
     }
-
     public void setErrorNr(long id) {
         this.errorNr = id;
     }
-
     public String getStatusCode() {
         return statusCode;
     }
-
     public void setStatusCode(String statusCode) {
         this.statusCode = statusCode;
     }
-
     public String getMainMessage() {
         return mainMessage;
     }
-
     public void setMainMessage(String mainMessage) {
         this.mainMessage = mainMessage;
     }
-
     public String getAdditionalInfo() {
         return additionalInfo;
     }
-
     public void setAdditionalInfo(String additionalInfo) {
         this.additionalInfo = additionalInfo;
     }
-
     public Date getOccurredAt() {
         return occurredAt;
     }
-
     public void setOccurredAt(Date occurredAt) {
         this.occurredAt = occurredAt;
     }

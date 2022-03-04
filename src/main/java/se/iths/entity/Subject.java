@@ -12,10 +12,8 @@ public class Subject {
 
     @NotEmpty
     private String name;
-
     @NotEmpty
     private String points;
-
     @ManyToOne
     private Teacher teacher;
 
@@ -28,25 +26,19 @@ public class Subject {
     public void setTeacher(Teacher teacher) {
         this.teacher = teacher;
     }
-
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) { this.id = id; }
-
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
-
     public String getPoints() {
         return points;
     }
-
     public void setPoints(String points) {
         this.points = points;
     }

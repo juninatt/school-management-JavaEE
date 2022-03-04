@@ -1,6 +1,5 @@
 package se.iths.rest;
 
-import se.iths.entity.Subject;
 import se.iths.entity.Teacher;
 import se.iths.service.TeacherService;
 
