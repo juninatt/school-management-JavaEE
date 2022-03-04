@@ -42,4 +42,13 @@ public class Subject {
     public void setPoints(String points) {
         this.points = points;
     }
+
+    @Override
+    public String toString() {
+        return "Subject{" +
+                "id= " + id +
+                ", name'" + name + '\'' +
+                ", points='" + points +
+                '}';
+    }
 }
