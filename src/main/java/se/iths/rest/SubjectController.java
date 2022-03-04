@@ -20,7 +20,7 @@ public class SubjectController {
     @Inject
     SubjectService subjectService;
 
-    @Path("create")
+    @Path("")
     @POST
     public Response createSubject(Subject subject) {
         subjectService.createSubject(subject);
