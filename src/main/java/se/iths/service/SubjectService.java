@@ -1,10 +1,12 @@
 package se.iths.service;
 
+import se.iths.entity.Student;
 import se.iths.entity.Subject;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Transactional
 public class SubjectService {
@@ -17,4 +19,22 @@ public class SubjectService {
         return subject;
     }
     public Subject getSubject(Long id) { return entityManager.find(Subject.class, id); }
+    public List<Subject> getSubjects() {
+        return entityManager.createQuery("SELECT s FROM Subject s", Subject.class).getResultList();
+    }
+    public List<Subject> getSubjects(String points) {
+        return entityManager.createQuery(
+                        "SELECT s FROM Subject s WHERE s.points LIKE :points", Subject.class)
+                .setParameter("points", points)
+                .getResultList();
+    }
+    public Subject updateName(Long id, String name) {
+        Subject subject = entityManager.find(Subject.class, id);
+        subject.setName(name);
+        return entityManager.merge(subject);
+    }
+    public void removeSubject(Long id) {
+        Subject subject = entityManager.find(Subject.class, id);
+        entityManager.remove(subject);
+    }
 }
