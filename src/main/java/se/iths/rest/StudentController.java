@@ -4,7 +4,6 @@ import se.iths.entity.Student;
 import se.iths.exceptions.StudentNotFoundException;
 import se.iths.service.StudentService;
 
-
 import javax.ejb.DuplicateKeyException;
 import javax.inject.Inject;
 import javax.mail.MethodNotSupportedException;
@@ -33,14 +32,6 @@ public class StudentController {
                 .build();
     }
     @Path("{id}")
-    @POST
-    public void illegalPathCreate(@PathParam("id") Long id) throws DuplicateKeyException {
-        if (findDuplicate(id))
-            throw new DuplicateKeyException();
-        throw new NotFoundException();
-    }
-
-    @Path("{id}")
     @GET
     public Response getStudent(@PathParam("id") Long id) {
         if (!findDuplicate(id))
@@ -49,7 +40,6 @@ public class StudentController {
         return Response.ok(student)
                 .build();
     }
-
     @Path("")
     @GET
     public Response getStudents() {
@@ -57,7 +47,6 @@ public class StudentController {
         return Response.ok(students)
                 .build();
     }
-
     @Path("last-name")
     @GET
     public Response getStudents(@QueryParam("last-name") String name) {
@@ -93,6 +82,14 @@ public class StudentController {
                 .status(Response.Status.NO_CONTENT)
                 .expires(Date.from(Instant.now()))
                 .build();
+    }
+
+    @Path("{id}")
+    @POST
+    public void illegalPathCreate(@PathParam("id") Long id) throws DuplicateKeyException {
+        if (findDuplicate(id))
+            throw new DuplicateKeyException();
+        throw new NotFoundException();
     }
     @Path("")
     @DELETE
