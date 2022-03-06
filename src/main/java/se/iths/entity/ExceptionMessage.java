@@ -9,7 +9,7 @@ import java.util.Date;
 public class ExceptionMessage {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long errorNr;
 
     @NotEmpty
