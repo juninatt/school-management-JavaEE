@@ -1,6 +1,7 @@
 package se.iths.service;
 
 import se.iths.entity.Student;
+import se.iths.entity.Subject;
 import se.iths.entity.Teacher;
 
 import javax.persistence.EntityManager;
@@ -29,6 +30,12 @@ public class TeacherService {
                         "SELECT t FROM Teacher t WHERE t.lastName LIKE :name", Teacher.class)
                 .setParameter("name", lastName)
                 .getResultList();
+    }
+    public Teacher addSubject(Long teacherId, Long subjectId) {
+        Teacher teacher = entityManager.find(Teacher.class, teacherId);
+        Subject subject = entityManager.find(Subject.class, subjectId);
+        teacher.addSubject(subject);
+        return entityManager.merge(teacher);
     }
     public Teacher updateName(Long id, String firstName, String lastName) {
         Teacher teacher = entityManager.find(Teacher.class, id);

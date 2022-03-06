@@ -67,4 +67,13 @@ public class TeacherController {
                 .expires(Date.from(Instant.now()))
                 .build();
     }
+    @Path("addsubject/{id}")
+    @PATCH
+    public Response addSubject(@PathParam("id") Long teacherId, @QueryParam("subject") Long subjectId) {
+        teacherService.addSubject(teacherId, subjectId);
+        return Response.ok()
+                .lastModified(Date.from(Instant.now()))
+                .status(Response.Status.NO_CONTENT)
+                .build();
+    }
 }
