@@ -96,6 +96,15 @@ public class StudentController {
     public void illegalPathDelete() throws MethodNotSupportedException {
         throw new MethodNotSupportedException();
     }
+    @Path("addsubject/{id}")
+    @PATCH
+    public Response addSubject(@PathParam("id") Long studentId, @QueryParam("subject") Long subjectId) {
+        studentService.addSubject(studentId, subjectId);
+        return Response.ok()
+                .lastModified(Date.from(Instant.now()))
+                .status(Response.Status.NO_CONTENT)
+                .build();
+    }
 
     private boolean findDuplicate(Long id) {
         List<Student> existingStudents = studentService.getStudents();

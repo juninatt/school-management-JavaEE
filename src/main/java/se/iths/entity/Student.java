@@ -1,16 +1,16 @@
 package se.iths.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.Collection;
 
 @Entity
+@Table(name="STUD")
 public class Student {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "STUD_ID")
     private Long id;
 
     @NotEmpty
@@ -20,6 +20,19 @@ public class Student {
     @NotEmpty
     private String email;
     private String phoneNumber;
+
+    @ManyToMany(mappedBy = "students")
+    @JoinTable(name="STUD_SUBJ",
+    joinColumns = @JoinColumn(name="STUD_ID"),
+    inverseJoinColumns = @JoinColumn(name="SUBJ_ID"))
+    private Collection<Subject> subjects;
+
+    public Collection<Subject> getSubjects() {
+        return subjects;
+    }
+    public void addSubject(Subject subject) {
+        this.subjects.add(subject);
+    }
 
     public Long getId() {
         return id;

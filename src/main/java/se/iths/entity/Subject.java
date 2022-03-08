@@ -3,12 +3,14 @@ package se.iths.entity;
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.Collection;
 
 @Entity
 public class Subject {
 
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
+    @Column(name="SUBJ_ID")
     private Long id;
 
     @NotEmpty
@@ -17,6 +19,8 @@ public class Subject {
     private String points;
     @ManyToOne
     private Teacher teacher;
+    @ManyToMany
+    private Collection<Student> students;
 
     public Subject(String name, String points) {
         this.name = name;
