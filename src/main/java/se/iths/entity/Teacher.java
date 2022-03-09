@@ -57,7 +57,7 @@ public class Teacher {
         this.phoneNumber = phoneNumber;
     }
 
-
+    @JsonbTransient
     public List<Subject> getSubjects() {
         return subjects;
     }

@@ -28,7 +28,6 @@ public class Subject {
     }
     public Subject() {}
 
-    @JsonbTransient
     public Teacher getTeacher() {
         return teacher;
     }
