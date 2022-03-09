@@ -28,6 +28,12 @@ public class Subject {
     }
     public Subject() {}
 
+    public void addStudent(Student student) {
+        this.students.add(student);
+    }
+    public Collection<Student> getStudents() {
+        return students;
+    }
     public Teacher getTeacher() {
         return teacher;
     }

@@ -27,11 +27,9 @@ public class Student {
     inverseJoinColumns = @JoinColumn(name="SUBJ_ID"))
     private Collection<Subject> subjects;
 
-    public Collection<Subject> getSubjects() {
-        return subjects;
-    }
     public void addSubject(Subject subject) {
         this.subjects.add(subject);
+        subject.addStudent(this);
     }
 
     public Long getId() {
