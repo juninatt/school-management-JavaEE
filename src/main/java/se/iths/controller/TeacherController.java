@@ -1,9 +1,12 @@
-package se.iths.rest;
+package se.iths.controller;
 
 import se.iths.entity.Teacher;
+import se.iths.exceptions.TeacherNotFoundException;
 import se.iths.service.TeacherService;
 
+import javax.ejb.DuplicateKeyException;
 import javax.inject.Inject;
+import javax.mail.MethodNotSupportedException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -31,6 +34,8 @@ public class TeacherController {
     @Path("{id}")
     @GET
     public Response getTeacher(@PathParam("id") Long id) {
+        if (!findDuplicate(id))
+            throw new TeacherNotFoundException();
         Teacher teacher = teacherService.getTeacher(id);
         return Response.ok(teacher)
                 .build();
@@ -46,12 +51,16 @@ public class TeacherController {
     @GET
     public Response getTeachers(@QueryParam("last-name") String name) {
         List<Teacher> teachers = teacherService.getTeachers(name);
+        if (teachers.isEmpty())
+            throw new TeacherNotFoundException();
         return Response.ok(teachers)
                 .build();
     }
     @Path("name/{id}")
     @PATCH
     public Response updateName(@PathParam("id") Long id, @QueryParam("first-name") String firstName,@QueryParam("last-name") String lastName) {
+        if (!findDuplicate(id))
+            throw new TeacherNotFoundException();
         Teacher teacher = teacherService.updateName(id, firstName, lastName);
         return Response.ok(teacher)
                 .lastModified(Date.from(Instant.now()))
@@ -61,6 +70,8 @@ public class TeacherController {
     @Path("{id}")
     @DELETE
     public Response removeTeacher(@PathParam("id") Long id) {
+        if (!findDuplicate(id))
+            throw new TeacherNotFoundException();
         teacherService.removeTeacher(id);
         return Response.ok()
                 .status(Response.Status.NO_CONTENT)
@@ -70,10 +81,40 @@ public class TeacherController {
     @Path("addsubject/{id}")
     @PATCH
     public Response addSubject(@PathParam("id") Long teacherId, @QueryParam("subject") Long subjectId) {
+        if (!findDuplicate(teacherId))
+            throw new TeacherNotFoundException();
         teacherService.addSubject(teacherId, subjectId);
         return Response.ok()
                 .lastModified(Date.from(Instant.now()))
                 .status(Response.Status.NO_CONTENT)
                 .build();
+    }
+    private boolean findDuplicate(Long id) {
+        List<Teacher> existingTeachers = teacherService.getTeachers();
+        boolean conflict = false;
+        for (Teacher s: existingTeachers) {
+            if (s.getId() == id) {
+                conflict = true;
+                break;
+            }
+        }
+        return conflict;
+    }
+    @Path("")
+    @PATCH
+    public void illegalPathUpdate() throws MethodNotSupportedException {
+        throw new MethodNotSupportedException();
+    }
+    @Path("{id}")
+    @POST
+    public void illegalPathCreate(@PathParam("id") Long id) throws DuplicateKeyException {
+        if (findDuplicate(id))
+            throw new DuplicateKeyException();
+        throw new NotFoundException();
+    }
+    @Path("")
+    @DELETE
+    public void illegalPathDelete() throws MethodNotSupportedException {
+        throw new MethodNotSupportedException();
     }
 }
