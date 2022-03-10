@@ -5,7 +5,6 @@ import javax.validation.constraints.NotEmpty;
 import java.util.Collection;
 
 @Entity
-@Table(name="STUD")
 public class Student {
 
     @Id
@@ -26,6 +25,15 @@ public class Student {
     joinColumns = @JoinColumn(name="STUD_ID"),
     inverseJoinColumns = @JoinColumn(name="SUBJ_ID"))
     private Collection<Subject> subjects;
+
+    public Student(String firstName, String lastName, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+    }
+
+    public Student() {
+    }
 
     public void addSubject(Subject subject) {
         this.subjects.add(subject);
