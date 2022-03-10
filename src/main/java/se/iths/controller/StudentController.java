@@ -1,4 +1,4 @@
-package se.iths.rest;
+package se.iths.controller;
 
 import se.iths.entity.Student;
 import se.iths.exceptions.StudentNotFoundException;
@@ -67,11 +67,6 @@ public class StudentController {
                 .status(Response.Status.NO_CONTENT)
                 .build();
     }
-    @Path("")
-    @PATCH
-    public void illegalPathUpdate() throws MethodNotSupportedException {
-        throw new MethodNotSupportedException();
-    }
     @Path("{id}")
     @DELETE
     public Response removeStudent(@PathParam("id") Long id) {
@@ -83,7 +78,28 @@ public class StudentController {
                 .expires(Date.from(Instant.now()))
                 .build();
     }
-
+    @Path("addsubject/{id}")
+    @PATCH
+    public Response addSubject(@PathParam("id") Long studentId, @QueryParam("subject") Long subjectId) {
+        if (!findDuplicate(studentId))
+            throw new StudentNotFoundException();
+        studentService.addSubject(studentId, subjectId);
+        return Response.ok()
+                .lastModified(Date.from(Instant.now()))
+                .status(Response.Status.NO_CONTENT)
+                .build();
+    }
+    private boolean findDuplicate(Long id) {
+        List<Student> existingStudents = studentService.getStudents();
+        boolean conflict = false;
+        for (Student s: existingStudents) {
+            if (s.getId().equals(id)) {
+                conflict = true;
+                break;
+            }
+        }
+        return conflict;
+    }
     @Path("{id}")
     @POST
     public void illegalPathCreate(@PathParam("id") Long id) throws DuplicateKeyException {
@@ -96,26 +112,10 @@ public class StudentController {
     public void illegalPathDelete() throws MethodNotSupportedException {
         throw new MethodNotSupportedException();
     }
-    @Path("addsubject/{id}")
+    @Path("")
     @PATCH
-    public Response addSubject(@PathParam("id") Long studentId, @QueryParam("subject") Long subjectId) {
-        studentService.addSubject(studentId, subjectId);
-        return Response.ok()
-                .lastModified(Date.from(Instant.now()))
-                .status(Response.Status.NO_CONTENT)
-                .build();
-    }
-
-    private boolean findDuplicate(Long id) {
-        List<Student> existingStudents = studentService.getStudents();
-        boolean conflict = false;
-        for (Student s: existingStudents) {
-            if (s.getId().equals(id)) {
-                conflict = true;
-                break;
-            }
-        }
-        return conflict;
+    public void illegalPathUpdate() throws MethodNotSupportedException {
+        throw new MethodNotSupportedException();
     }
 }
 
