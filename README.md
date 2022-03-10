@@ -26,6 +26,10 @@ last-name  : <new-last-name>
 
 Remove student:
 DELETE - http://localhost:8080/SMS/api/v1/student/{id}
+
+Add subject:
+PATCH - http://localhost:8080/SMS/api/v1/student/addsubject/{id}
+Query - > subject : <subject-id>
 -----------------------------------------------------------
 TEACHER PATHS:
 Create teacher:
