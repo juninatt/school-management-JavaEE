@@ -14,7 +14,7 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 
-@Path("student")
+@Path("students")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class StudentController {
