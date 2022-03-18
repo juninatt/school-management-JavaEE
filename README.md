@@ -5,10 +5,10 @@ STUDENT PATHS:
 Create student:
 POST - http://localhost:8080/SMS/api/v1/students/
 {
-"firstName": "Mr",
-"lastName": "Student",
-"email": "student.se",
-"phoneNumber": "031"
+"firstName": "<first-name>",
+"lastName": "<last-name>",
+"email": "<email>",
+"phoneNumber": "<phone-number>"
 }
 
 Get student:
@@ -35,10 +35,10 @@ TEACHER PATHS:
 Create teacher:
 POST - http://localhost:8080/SMS/api/v1/teachers/
 {
-"firstName": "Mrs",
-"lastName": "Teacher",
-"email": "teacher.se",
-"phoneNumber": "031"
+"firstName": "<first-name>",
+"lastName": "<last-name>",
+"email": "<email>",
+"phoneNumber": "<phone-number>"
 }
 
 Get teacher:
@@ -61,8 +61,8 @@ SUBJECT PATHS:
 Create subject:
 POST - http://localhost:8080/SMS/api/v1/subjects/
 {
-"name":"Subject",
-"points":"7,5"
+"name":"<subject-name>",
+"points":"<subject-points>"
 }
 
 Get subject:
@@ -72,6 +72,9 @@ Utan {id} hämtas alla
 Get subject by points:
 GET - http://localhost:8080/SMS/api/v1/subjects/{points}
 Query -> points : <subject-points>
+
+Get subject participants information:
+GET - http://localhost:8080/SMS/api/v1/subjects/{id}/students
 
 Update  name:
 PATCH - http://localhost:8080/SMS/api/v1/subjects/name/{id}
