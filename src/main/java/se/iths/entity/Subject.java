@@ -6,6 +6,10 @@ import javax.validation.constraints.NotEmpty;
 import java.util.Collection;
 
 @Entity
+@NamedQueries(value= {
+        @NamedQuery(name="Subject.getAll", query="SELECT s FROM Subject s ORDER BY s.name"),
+        @NamedQuery(name="Subject.getByPoints", query="SELECT s FROM Subject s WHERE s.points = :points")
+})
 public class Subject {
 
     @Id

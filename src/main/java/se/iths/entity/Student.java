@@ -4,7 +4,12 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.Collection;
 
+
 @Entity
+@NamedQueries(value= {
+        @NamedQuery(name="Student.getAll", query="SELECT s FROM Student s ORDER BY s.lastName"),
+        @NamedQuery(name="Student.getByLastName", query="SELECT s FROM Student s WHERE s.lastName = :name")
+})
 public class Student {
 
     @Id

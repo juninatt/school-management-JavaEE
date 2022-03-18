@@ -22,11 +22,10 @@ public class StudentService {
         return entityManager.find(Student.class, id);
     }
     public List<Student> getStudents() {
-        return entityManager.createQuery("SELECT s FROM Student s", Student.class).getResultList();
+        return entityManager.createNamedQuery("Student.getAll", Student.class).getResultList();
     }
     public List<Student> getStudents(String lastName) {
-        return entityManager.createQuery(
-                        "SELECT s FROM Student s WHERE s.lastName LIKE :name", Student.class)
+        return entityManager.createNamedQuery("Student.getByLastName", Student.class)
                 .setParameter("name", lastName)
                 .getResultList();
     }

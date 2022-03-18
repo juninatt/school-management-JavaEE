@@ -19,11 +19,10 @@ public class SubjectService {
     }
     public Subject getSubject(Long id) { return entityManager.find(Subject.class, id); }
     public List<Subject> getSubjects() {
-        return entityManager.createQuery("SELECT s FROM Subject s", Subject.class).getResultList();
+        return entityManager.createNamedQuery("Subject.getAll", Subject.class).getResultList();
     }
     public List<Subject> getSubjects(String points) {
-        return entityManager.createQuery(
-                        "SELECT s FROM Subject s WHERE s.points LIKE :points", Subject.class)
+        return entityManager.createNamedQuery("Subject.getByPoints", Subject.class)
                 .setParameter("points", points)
                 .getResultList();
     }

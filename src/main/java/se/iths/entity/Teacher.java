@@ -6,6 +6,10 @@ import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @Entity
+@NamedQueries(value= {
+        @NamedQuery(name="Teacher.getAll", query="SELECT t FROM Teacher t ORDER BY t.lastName"),
+        @NamedQuery(name="Teacher.getByLastName", query="SELECT t FROM Teacher t WHERE t.lastName = :name")
+})
 public class Teacher {
 
     @Id
