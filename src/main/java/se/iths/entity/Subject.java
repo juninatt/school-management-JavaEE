@@ -35,9 +35,12 @@ public class Subject {
     public void addStudent(Student student) {
         this.students.add(student);
     }
+
+    @JsonbTransient
     public Collection<Student> getStudents() {
         return students;
     }
+
     public Teacher getTeacher() {
         return teacher;
     }

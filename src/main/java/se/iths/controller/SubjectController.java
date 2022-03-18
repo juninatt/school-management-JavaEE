@@ -31,6 +31,7 @@ public class SubjectController {
                 .status(Response.Status.CREATED)
                 .build();
     }
+
     @Path("{id}")
     @GET
     public Response getSubject(@PathParam("id") Long id) {
@@ -38,8 +39,10 @@ public class SubjectController {
             throw new SubjectNotFoundException();
         Subject subject = subjectService.getSubject(id);
         return Response.ok(subject)
+                .header("Students", subject.getStudents())
                 .build();
     }
+
     @Path("")
     @GET
     public Response getSubjects() {
@@ -47,6 +50,7 @@ public class SubjectController {
         return Response.ok(subjects)
                 .build();
     }
+
     @Path("points")
     @GET
     public Response getSubject(@QueryParam("points") String points) {
@@ -56,6 +60,7 @@ public class SubjectController {
         return Response.ok(subjects)
                 .build();
     }
+
     @Path("name/{id}")
     @PATCH
     public Response updateName(@PathParam("id") Long id, @QueryParam("name") String name) {
@@ -67,6 +72,7 @@ public class SubjectController {
                 .status(Response.Status.NO_CONTENT)
                 .build();
     }
+
     @Path("{id}")
     @DELETE
     public Response removeStudent(@PathParam("id") Long id) {
@@ -76,6 +82,16 @@ public class SubjectController {
         return Response.ok()
                 .status(Response.Status.NO_CONTENT)
                 .expires(Date.from(Instant.now()))
+                .build();
+    }
+
+    @Path("{id}/students")
+    @GET
+    public Response getStudents(@PathParam("id") Long id) {
+        if (!findDuplicate(id))
+            throw new SubjectNotFoundException();
+        Subject subject = subjectService.getSubject(id);
+        return Response.ok(subject.getStudents())
                 .build();
     }
 
@@ -90,6 +106,7 @@ public class SubjectController {
         }
         return conflict;
     }
+
     @Path("{id}")
     @POST
     public void illegalPathCreate(@PathParam("id") Long id) throws DuplicateKeyException {
@@ -97,6 +114,7 @@ public class SubjectController {
             throw new DuplicateKeyException();
         throw new NotFoundException();
     }
+
     @Path("")
     @DELETE
     public void illegalPathDelete() throws MethodNotSupportedException {

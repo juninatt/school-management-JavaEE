@@ -31,7 +31,6 @@ public class Teacher {
         this.lastName = lastName;
         this.email = email;
     }
-
     public Teacher() {
     }
 
@@ -39,6 +38,12 @@ public class Teacher {
         this.subjects.add(subject);
         subject.setTeacher(this);
     }
+
+    @JsonbTransient
+    public List<Subject> getSubjects() {
+        return subjects;
+    }
+
     public long getId() {
         return id;
     }
@@ -68,11 +73,6 @@ public class Teacher {
     }
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-    @JsonbTransient
-    public List<Subject> getSubjects() {
-        return subjects;
     }
 
     @Override
