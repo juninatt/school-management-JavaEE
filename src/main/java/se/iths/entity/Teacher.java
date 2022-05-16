@@ -5,6 +5,11 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
+/**
+ * The teacher class that represents a teacher.
+ * Teacher.getAll-query fetches all teachers currently stored in database.
+ * Teacher.getByLastName-query fetches all teachers with given last name.
+ */
 @Entity
 @NamedQueries(value= {
         @NamedQuery(name="Teacher.getAll", query="SELECT t FROM Teacher t ORDER BY t.lastName"),
@@ -12,33 +17,70 @@ import java.util.List;
 })
 public class Teacher {
 
+    /**
+     * The id number of the teacher. Value generated automatically with each new instance of the class.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    /**
+     * Teacher first name.
+     */
     @NotEmpty
     private String firstName;
+
+    /**
+     * Teacher last name.
+     */
     @NotEmpty
     private String lastName;
+
+    /**
+     * Teacher email.
+     */
     @NotEmpty
     private String email;
+
+    /**
+     * Teacher phone number.
+     */
     private String phoneNumber;
+
+
+    /**
+     * A List of subjects{@link Subject} belonging to the teacher.
+     * Each subject can only have one teacher.
+     */
     @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL)
     private List<Subject> subjects;
 
+    /**
+     * A constructor with 'firstName', 'lastName' and 'email' as parameters.
+     */
     public Teacher(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
     }
+
+    /**
+     * No-args constructor.
+     */
     public Teacher() {
     }
 
+    /**
+     * Method that adds a student to the list of students belonging to the teacher.
+     */
     public void addSubject(Subject subject) {
         this.subjects.add(subject);
         subject.setTeacher(this);
     }
 
+    /**
+     * Method that returns all subjects belonging to the teacher.
+     */
     @JsonbTransient
     public List<Subject> getSubjects() {
         return subjects;
