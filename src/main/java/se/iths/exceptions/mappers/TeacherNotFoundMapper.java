@@ -12,8 +12,14 @@ import javax.ws.rs.ext.ExceptionMapper;
  */
 public class TeacherNotFoundMapper implements ExceptionMapper<TeacherNotFoundException> {
 
+    /**
+     * Instance of{@link ExceptionMessage}
+     */
     ExceptionMessage message = new ExceptionMessage("404", "Could not find teacher", "Additional information");
 
+    /**
+     * Method that sends the message object back with the response to the exception.
+     */
     @Override
     public Response toResponse(TeacherNotFoundException e) {
         return Response.ok(message)

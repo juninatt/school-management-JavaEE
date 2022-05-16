@@ -10,13 +10,23 @@ import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+/**
+ * Class that loads sample data to test the application.
+ */
 @Singleton
 @Startup
 public class  SampleData {
 
+    /**
+     *  Used to interact with the persistence context.
+     * @see EntityManager
+     */
     @PersistenceContext
     EntityManager entityManager;
 
+    /**
+     * Generates test data.
+     */
     @PostConstruct
     public void generateData() {
 
