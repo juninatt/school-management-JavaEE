@@ -14,15 +14,24 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * The subject controller class.
+ */
 @Path("subjects")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class SubjectController {
 
 
+    /**
+     * {@link SubjectService}
+     */
     @Inject
     SubjectService subjectService;
 
+    /**
+     * Method that creates new subject.
+     */
     @Path("")
     @POST
     public Response createSubject(Subject subject) {
@@ -32,10 +41,15 @@ public class SubjectController {
                 .build();
     }
 
+    /**
+     * Method that returns subject with matching id, if exists.
+     * Otherwise, throws exception.
+     * {@link SubjectNotFoundException}
+     */
     @Path("{id}")
     @GET
     public Response getSubject(@PathParam("id") Long id) {
-        if (!findDuplicate(id))
+        if (!exists(id))
             throw new SubjectNotFoundException();
         Subject subject = subjectService.getSubject(id);
         return Response.ok(subject)
@@ -43,6 +57,9 @@ public class SubjectController {
                 .build();
     }
 
+    /**
+     * Method that returns a list of all subjects.
+     */
     @Path("")
     @GET
     public Response getSubjects() {
@@ -51,6 +68,11 @@ public class SubjectController {
                 .build();
     }
 
+    /**
+     * Method that returns a list of subjects with the matching points-value.
+     * If list is empty throws exception.
+     * {@link SubjectNotFoundException}
+     */
     @Path("points")
     @GET
     public Response getSubject(@QueryParam("points") String points) {
@@ -61,10 +83,15 @@ public class SubjectController {
                 .build();
     }
 
+    /**
+     * Method that updates the name of a subject with matching id, if exists.
+     * Otherwise, throws exception.
+     * {@link SubjectNotFoundException}
+     */
     @Path("name/{id}")
     @PATCH
     public Response updateName(@PathParam("id") Long id, @QueryParam("name") String name) {
-        if (!findDuplicate(id))
+        if (!exists(id))
             throw new SubjectNotFoundException();
         Subject subject = subjectService.updateName(id, name);
         return Response.ok(subject)
@@ -73,10 +100,15 @@ public class SubjectController {
                 .build();
     }
 
+    /**
+     * Method that deletes subject with matching id, if exists.
+     * Otherwise, throws exception.
+     * {@link SubjectNotFoundException}
+     */
     @Path("{id}")
     @DELETE
     public Response removeStudent(@PathParam("id") Long id) {
-        if (!findDuplicate(id))
+        if (!exists(id))
             throw new SubjectNotFoundException();
         subjectService.removeSubject(id);
         return Response.ok()
@@ -85,41 +117,62 @@ public class SubjectController {
                 .build();
     }
 
+    /**
+     * Method that returns a list of students enrolled in subject with matching id, if exists.
+     * Otherwise, throws exception.
+     * {@link SubjectNotFoundException}
+     */
     @Path("{id}/students")
     @GET
     public Response getStudents(@PathParam("id") Long id) {
-        if (!findDuplicate(id))
+        if (!exists(id))
             throw new SubjectNotFoundException();
         Subject subject = subjectService.getSubject(id);
         return Response.ok(subject.getStudents())
                 .build();
     }
-
-    private boolean findDuplicate(Long id) {
+    /**
+     * Method that checks if a subject with given id-value exists in database.
+     * 'isPresent' returns true if subject exists in database.
+     */
+    private boolean exists(Long id) {
         List<Subject> existingSubjects = subjectService.getSubjects();
-        boolean conflict = false;
+        boolean isPresent = false;
         for (Subject s: existingSubjects) {
             if (s.getId().equals(id)) {
-                conflict = true;
+                isPresent = true;
                 break;
             }
         }
-        return conflict;
+        return isPresent;
     }
 
+    /**
+     * Method that throws exception for unsupported create requests.
+     * @see DuplicateKeyException
+     */
     @Path("{id}")
     @POST
     public void illegalPathCreate(@PathParam("id") Long id) throws DuplicateKeyException {
-        if (findDuplicate(id))
+        if (exists(id))
             throw new DuplicateKeyException();
         throw new NotFoundException();
     }
 
+    /**
+     * Method that throws exception for unsupported delete requests.
+     * @see MethodNotSupportedException
+     */
     @Path("")
     @DELETE
     public void illegalPathDelete() throws MethodNotSupportedException {
         throw new MethodNotSupportedException();
     }
+
+    /**
+     * Method that throws exception for unsupported update requests.
+     * @see MethodNotSupportedException
+     */
     @Path("")
     @PATCH
     public void illegalPathUpdate() throws MethodNotSupportedException {
