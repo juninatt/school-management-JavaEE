@@ -12,7 +12,7 @@ import javax.persistence.PersistenceContext;
 
 @Singleton
 @Startup
-public class SampleData {
+public class  SampleData {
 
     @PersistenceContext
     EntityManager entityManager;

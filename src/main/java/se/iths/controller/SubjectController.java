@@ -1,7 +1,7 @@
 package se.iths.controller;
 
 import se.iths.entity.Subject;
-import se.iths.exceptions.SubjectNotFoundException;
+import se.iths.exceptions.exception.SubjectNotFoundException;
 import se.iths.service.SubjectService;
 
 import javax.ejb.DuplicateKeyException;

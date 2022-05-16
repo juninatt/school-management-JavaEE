@@ -1,7 +1,7 @@
 package se.iths.exceptions.mappers;
 
 import se.iths.entity.ExceptionMessage;
-import se.iths.exceptions.SubjectNotFoundException;
+import se.iths.exceptions.exception.SubjectNotFoundException;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;

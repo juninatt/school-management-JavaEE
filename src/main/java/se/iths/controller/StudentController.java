@@ -1,7 +1,7 @@
 package se.iths.controller;
 
 import se.iths.entity.Student;
-import se.iths.exceptions.StudentNotFoundException;
+import se.iths.exceptions.exception.StudentNotFoundException;
 import se.iths.service.StudentService;
 
 import javax.ejb.DuplicateKeyException;

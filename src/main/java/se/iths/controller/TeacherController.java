@@ -1,7 +1,7 @@
 package se.iths.controller;
 
 import se.iths.entity.Teacher;
-import se.iths.exceptions.TeacherNotFoundException;
+import se.iths.exceptions.exception.TeacherNotFoundException;
 import se.iths.service.TeacherService;
 
 import javax.ejb.DuplicateKeyException;
